@@ -8,6 +8,7 @@ func main() {
 	input := make(chan int)
 	output := make(chan int)
 
+	// ввод чисел x в первый поток
 	go func() {
 		for _, val := range nums {
 			input <- val
@@ -15,6 +16,7 @@ func main() {
 		close(input)
 	}()
 
+	// чтение чисел x из первого потока и ввод чиел x*2 во второй поток
 	go func() {
 		for val := range input {
 			output <- val * 2
@@ -22,6 +24,7 @@ func main() {
 		close(output)
 	}()
 
+	// вывод содержимого второго потока
 	for val := range output {
 		fmt.Printf("%d ", val)
 	}
